@@ -1,0 +1,41 @@
+{"movies":[{
+        "id": 1,
+        "title": "Dawn of the Planet of the Apes",
+        "releaseYear": 2014,
+        "genre": ["Action", "Drama", "Sci-Fi"]
+    },
+    {   "id": 2,
+        "title": "District 9",
+        "releaseYear": 2009,
+        "genre": ["Action", "Sci-Fi", "Thriller"]
+    },
+    {   "id": 3,
+        "title": "Transformers: Age of Extinction",
+        "releaseYear": 2014,
+        "genre": ["Action", "Adventure", "Sci-Fi"]
+    },
+    {   "id": 4,
+        "title": "X-Men: Days of Future Past",
+        "releaseYear": 2014,
+        "genre": ["Action", "Sci-Fi", "Thriller"]
+    },
+    {   "id": 5,
+        "title": "The Machinist",
+        "releaseYear": 2004,
+        "genre": ["Drama", "Thriller"]
+    },
+    {   "id": 6,
+        "title": "The Last Samurai",
+        "releaseYear": 2003,
+        "genre": ["Action", "Drama", "History"]
+    },
+    {   "id": 7,
+        "title": "The Amazing Spider-Man 2",
+        "releaseYear": 2014,
+        "genre": ["Action", "Adventure", "Fantasy"]
+    },
+    {   "id": 8,
+        "title": "Tangled",
+        "releaseYear": 2010,
+        "genre": ["Action", "Drama", "Sci-Fi"]
+    }]}

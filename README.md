@@ -16,6 +16,8 @@
 
 ### FE
 
+1.01 Asenna `gulp` ajamalla komentorivillä `npm install gulp -g`
+
 1.1 mene komentorivillä FE-kansion sisään
 
 1.2 suorita komenta `npm install`

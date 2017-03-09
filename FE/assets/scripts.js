@@ -9,22 +9,10 @@ $(document).ready(function(){
   });
 
 
-//click event for seat
-  $(document).on('click','.seat',function(e){
-      if($(this).hasClass("selected")){
-          $(this).removeClass("selected");
-          return false;
-      }
-      if($(this).hasClass("reserved")){
-        return false;
-      } else{
-        $(this).addClass("selected");
-      }
-});
 
 });
 
-
+var userId = 1;///FOR DEVELOPMENT
 
 function printTheaterSelection(data){
   $.get("http://localhost:8081/getTheaters", function(response, status){
@@ -71,13 +59,13 @@ function showTheater(selectedTheater){
         })[0];
 
         let date = new Date(show.date);
-        let showDiw = $("<div data-showid="+show.id+" data-theaterid="+theater.id+" onclick=console.log(this);showSeatingChart(this)></div>");
-        showDiw.append($("<span></span>").text(date.getDate()+"/"+date.getMonth()+"/"+date.getYear()+" " + date.getHours() +":" + date.getMinutes()));
-        showDiw.append($("<h4></h4").text(movie.title));
+        let showDiv = $("<div data-showid="+show.id+" data-theaterid="+theater.id+" onclick=console.log(this);showSeatingChart(this)></div>");
+        showDiv.append($("<span></span>").text(date.getDate()+"/"+date.getMonth()+"/"+date.getYear()+" " + date.getHours() +":" + date.getMinutes()));
+        showDiv.append($("<h4></h4").text(movie.title));
 
 
 
-        showDiw.appendTo(".shows");
+        showDiv.appendTo(".shows");
       }
 
     });
@@ -118,8 +106,8 @@ function showSeatingChart(selectedShow){
       }
     })[0];
 
-    let chart = $("<div></div>");
-    chart.addClass("chart");
+    let chart = $("<div data-showid="+show.id+" id ='chart'></div>");
+
 
     ///print rows
     let index = 1;
@@ -128,7 +116,7 @@ function showSeatingChart(selectedShow){
       let singleRow = $("<div></div>")
       singleRow.addClass("singleRow");
       for( i = 1; i < row +1;i++){
-        let seat = $("<span data-row="+index+" data-seat="+i+" data-seattotal="+seatNumber+" id="+seatNumber+" class='seat free'></span>").text(i);
+        let seat = $("<span data-row="+index+" data-seat="+i+" data-seattotal="+seatNumber+" id="+seatNumber+" class='seat free' onclick=selectSeat(this)></span>").text(i);
         singleRow.append(seat);
         seatNumber++
       }
@@ -148,6 +136,44 @@ function showSeatingChart(selectedShow){
     }
 
   });
+}
+
+///seats click event
+var selectedSeats = [];
+function selectSeat(seat){
 
 
+  let showId = $("#chart").data("showid");
+  let row = $(seat).data("row");
+  let seatInRow = $(seat).data("seat");
+  let seatTotal = $(seat).data("seattotal");
+
+  if($(seat).hasClass("selected")){
+    $(seat).removeClass("selected");
+    //remove selected seat form selectedSeats array
+    selectedSeats =   selectedSeats.filter(function(s){
+      if(s.seatTotal != seatTotal){
+        return s;
+      }
+    });
+    console.log(selectedSeats);
+  }else {
+    $(seat).addClass("selected");
+    //add selected seat to selectedSeats array
+    selectedSeats.push({userId: userId, showId: showId, row: row, seatInRow: seatInRow, seatTotal: seatTotal});
+    console.log(selectedSeats);
+  }
+  if($(seat).hasClass("reserved")){
+    return false;
+  } else{
+
+  }
+
+  //print list of selected seats
+  $(".selectedSeats").text("");
+  let selectedSeatsDiv = $("<ul class='selectedSeats'></ul>").text("Valitut paikat");
+  for(let s of selectedSeats){
+    selectedSeatsDiv.append($("<li></li>").text("Rivi: "+s.row +" Paikka: "+ s.seatInRow));
+  }
+  selectedSeatsDiv.appendTo(".theaterChart");
 }

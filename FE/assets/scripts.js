@@ -148,6 +148,9 @@ function selectSeat(seat){
   let seatInRow = $(seat).data("seat");
   let seatTotal = $(seat).data("seattotal");
 
+  if($(seat).hasClass("reserved")){
+    return false;
+  } 
   if($(seat).hasClass("selected")){
     $(seat).removeClass("selected");
     //remove selected seat form selectedSeats array
@@ -162,11 +165,6 @@ function selectSeat(seat){
     //add selected seat to selectedSeats array
     selectedSeats.push({userId: userId, showId: showId, row: row, seatInRow: seatInRow, seatTotal: seatTotal});
     console.log(selectedSeats);
-  }
-  if($(seat).hasClass("reserved")){
-    return false;
-  } else{
-
   }
 
   //print list of selected seats

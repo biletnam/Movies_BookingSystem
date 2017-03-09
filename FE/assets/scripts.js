@@ -8,11 +8,22 @@ $(document).ready(function(){
     printTheaterSelection(data);
   });
 
+//LOGIN
+$("#login").click(function(){
+  let TESTUSERNAME = "username";
+  let TESTPASSWORD = "pass";
 
+  $.post("http://localhost:8081/login", { username: TESTUSERNAME, password: TESTPASSWORD}, function(data){
+    if(data == "success"){
+      console.log("logged in");
+    }
+  })
+})
 
 });
 
 var userId = 1;///FOR DEVELOPMENT
+var selectedSeats = [];
 
 function printTheaterSelection(data){
   $.get("http://localhost:8081/getTheaters", function(response, status){
@@ -77,6 +88,7 @@ function showTheater(selectedTheater){
 
 ////prints seating chart of selectedShow
 function showSeatingChart(selectedShow){
+  selectedSeats.length = 0;
   $(".chart").text("");
   $(".theaterChart").text("");
   $(".theaterChart").append($("<h3></h3>").text("VALKOKANGAS"));
@@ -139,7 +151,6 @@ function showSeatingChart(selectedShow){
 }
 
 ///seats click event
-var selectedSeats = [];
 function selectSeat(seat){
 
 
@@ -150,7 +161,7 @@ function selectSeat(seat){
 
   if($(seat).hasClass("reserved")){
     return false;
-  } 
+  }
   if($(seat).hasClass("selected")){
     $(seat).removeClass("selected");
     //remove selected seat form selectedSeats array

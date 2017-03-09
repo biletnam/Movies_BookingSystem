@@ -13,30 +13,30 @@
   ],
   "shows":[
     {  "id":1,
-        "movieId":2,
-        "date":"2017-04-27T18:30:49+0200",
-        "hallId": 1,
-        "reservations": [
-          { "userId": 1,
-            "seats": [ 5,2,6 ]
-          },
-          { "userId": 4,
-            "seats": [26]
-          }
-        ]
+      "movieId":2,
+      "date":"2017-04-27T18:30:49+0200",
+      "hallId": 1,
+      "reservations": [
+        { "userId": 1,
+          "seats": [ 5,2,6 ]
+        },
+        { "userId": 4,
+          "seats": [26]
+        }
+      ]
     },
     {  "id":2,
-        "movieId":4,
-        "date":"2017-04-29T18:30:49+0200",
-        "hallId": 0,
-        "reservations": [
-          { "userId": 1,
-            "seats": [ 5,2,6 ]
-          },
-          { "userId": 4,
-            "seats": [26]
-          }
-        ]
+      "movieId":4,
+      "date":"2017-04-29T18:30:49+0200",
+      "hallId": 0,
+      "reservations": [
+        { "userId": 1,
+          "seats": [ 5,2,6 ]
+        },
+        { "userId": 4,
+          "seats": [26]
+        }
+      ]
     }
   ]
 },
@@ -54,30 +54,30 @@
   ],
   "shows":[
     {  "id":1,
-        "movieId":2,
-        "date":"2017-04-27T18:30:49+0200",
-        "hallId": 1,
-        "reservations": [
-          { "userId": 1,
-            "seats": [ 5,2,6 ]
-          },
-          { "userId": 4,
-            "seats": [26]
-          }
-        ]
+      "movieId":2,
+      "date":"2017-04-27T18:30:49+0200",
+      "hallId": 1,
+      "reservations": [
+        { "userId": 1,
+          "seats": [ 5,2,6 ]
+        },
+        { "userId": 4,
+          "seats": [26]
+        }
+      ]
     },
     {  "id":2,
-        "movieId":4,
-        "date":"2017-04-29T18:30:49+0200",
-        "hallId": 0,
-        "reservations": [
-          { "userId": 1,
-            "seats": [ 5,2,6 ]
-          },
-          { "userId": 4,
-            "seats": [26]
-          }
-        ]
+      "movieId":4,
+      "date":"2017-04-29T18:30:49+0200",
+      "hallId": 0,
+      "reservations": [
+        { "userId": 1,
+          "seats": [ 5,2,6 ]
+        },
+        { "userId": 4,
+          "seats": [26]
+        }
+      ]
     }
   ]
 }

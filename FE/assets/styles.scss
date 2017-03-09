@@ -56,17 +56,22 @@ body {
   *****/
   .main{
     padding: 20px;
-    .movies{
+    .section{
       background-color: $altBg;
       padding: 20px;
-      .movie{
-        margin: 5px;
-        padding: 5px;
-        border: 1px solid $bg;
-        
+      .shows{
+        div{
+
+          margin: 5px;
+          padding: 5px;
+          border: 1px solid $bg;
+        }
       }
     }
-    .theaters{
+    .theaterChart{
+      h3{
+        text-align: center;
+      }
       .chart{
         display: flex;
         flex-direction: column;
@@ -77,6 +82,15 @@ body {
             margin: 2px;
             padding: 3px;
             border: 1px solid $border;
+          }
+          .free{
+            background-color: green;
+          }
+          .reserved{
+            background-color: red;
+          }
+          .selected{
+            background-color: yellow;
           }
         }
       }

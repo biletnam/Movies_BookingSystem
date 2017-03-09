@@ -9,17 +9,31 @@ $(document).ready(function(){
   });
 
 //LOGIN
-$("#login").click(function(){
-  let TESTUSERNAME = "username";
-  let TESTPASSWORD = "pass";
+$("#submit").click(function(){
 
-  $.post("http://localhost:8081/login", { username: TESTUSERNAME, password: TESTPASSWORD}, function(data){
+    let username = $("#username").val();
+    let password = $("#password").val();
+  $.post("http://localhost:8081/login", { username: username, password: password}, function(data){
     if(data == "success"){
       console.log("logged in");
+    }else{
+      console.log("fail");
     }
   })
 })
 
+$("#createUser").click(function(){
+
+    let username = $("#username").val();
+    let password = $("#password").val();
+  $.post("http://localhost:8081/createUser", { username: username, password: password}, function(data){
+    if(data == "success"){
+      console.log("User created");
+    }else{
+      console.log("fail");
+    }
+  })
+})
 });
 
 var userId = 1;///FOR DEVELOPMENT

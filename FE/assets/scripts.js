@@ -8,17 +8,13 @@ $(document).ready(function(){
     printTheaterSelection(data);
   });
 
-//LOGIN
+// LOGIN
 $("#submit").click(function(){
 
     let username = $("#username").val();
     let password = $("#password").val();
   $.post("http://localhost:8081/login", { username: username, password: password}, function(data){
-    if(data == "success"){
-      console.log("logged in");
-    }else{
-      console.log("fail");
-    }
+	document.getElementById('view').innerHTML = data;
   })
 })
 
@@ -27,7 +23,8 @@ $("#createUser").click(function(){
     let username = $("#username").val();
     let password = $("#password").val();
   $.post("http://localhost:8081/createUser", { username: username, password: password}, function(data){
-    if(data == "success"){
+   
+	  if(data == "success"){	
       console.log("User created");
     }else{
       console.log("fail");
@@ -36,12 +33,12 @@ $("#createUser").click(function(){
 })
 });
 
-var userId = 1;///FOR DEVELOPMENT
+var userId = 1;// /FOR DEVELOPMENT
 var selectedSeats = [];
 
 function printTheaterSelection(data){
   $.get("http://localhost:8081/getTheaters", function(response, status){
-    //print dropdown select
+    // print dropdown select
     let data = JSON.parse(response);
     console.log(data.theaters);
     let list = $("<select  onchange=showTheater(this);></select>");
@@ -56,7 +53,7 @@ function printTheaterSelection(data){
 }
 
 
-///prints shows in selectedTheater
+// /prints shows in selectedTheater
 function showTheater(selectedTheater){
   $(".shows").text("");
   $(".chart").text("");
@@ -74,7 +71,7 @@ function showTheater(selectedTheater){
     $.get("http://localhost:8081/getMovies", function(response, status){
 
       let mData = JSON.parse(response);
-      //print show info
+      // print show info
       for(let show of theater.shows){
         let movie = mData.movies.filter(function(m) {
           if(show.movieId == m.id){
@@ -100,7 +97,7 @@ function showTheater(selectedTheater){
 }
 
 
-////prints seating chart of selectedShow
+// //prints seating chart of selectedShow
 function showSeatingChart(selectedShow){
   selectedSeats.length = 0;
   $(".chart").text("");
@@ -112,7 +109,7 @@ function showSeatingChart(selectedShow){
 
   $.get("http://localhost:8081/getTheaters", function(response, status){
     let data = JSON.parse(response);
-    //get right theater
+    // get right theater
     let theaterArray = data.theaters.filter(function(t) {
       if(t.id == theaterId){
         return t;
@@ -125,7 +122,7 @@ function showSeatingChart(selectedShow){
       }
     })[0];
     let showHallId = show.hallId;
-    //get right hall
+    // get right hall
     let hall = theater.halls.filter(function(h){
       if(showHallId == h.id){
         return h;
@@ -135,7 +132,7 @@ function showSeatingChart(selectedShow){
     let chart = $("<div data-showid="+show.id+" id ='chart'></div>");
 
 
-    ///print rows
+    // /print rows
     let index = 1;
     let seatNumber = 1;
     for(let row of hall.rows ){
@@ -152,7 +149,7 @@ function showSeatingChart(selectedShow){
 
     chart.appendTo(".theaterChart");
 
-    //set reserved class to reserved seats
+    // set reserved class to reserved seats
     for(let reservations of show.reservations){
       for(let seat of reservations.seats){
         $("#"+seat).addClass("reserved");
@@ -164,7 +161,7 @@ function showSeatingChart(selectedShow){
   });
 }
 
-///seats click event
+// /seats click event
 function selectSeat(seat){
 
 
@@ -178,7 +175,7 @@ function selectSeat(seat){
   }
   if($(seat).hasClass("selected")){
     $(seat).removeClass("selected");
-    //remove selected seat form selectedSeats array
+    // remove selected seat form selectedSeats array
     selectedSeats =   selectedSeats.filter(function(s){
       if(s.seatTotal != seatTotal){
         return s;
@@ -187,12 +184,12 @@ function selectSeat(seat){
     console.log(selectedSeats);
   }else {
     $(seat).addClass("selected");
-    //add selected seat to selectedSeats array
+    // add selected seat to selectedSeats array
     selectedSeats.push({userId: userId, showId: showId, row: row, seatInRow: seatInRow, seatTotal: seatTotal});
     console.log(selectedSeats);
   }
 
-  //print list of selected seats
+  // print list of selected seats
   $(".selectedSeats").text("");
   let selectedSeatsDiv = $("<ul class='selectedSeats'></ul>").text("Valitut paikat");
   for(let s of selectedSeats){

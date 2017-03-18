@@ -1,49 +1,79 @@
 <!DOCTYPE html>
 <html lang="fi">
 <head>
-  <meta charset="UTF-8">
-  <script   src="https://code.jquery.com/jquery-3.1.1.min.js"   integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="   crossorigin="anonymous"></script>
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-  <script type="text/javascript" src="assets/scripts.js">  </script>
-  <link rel="stylesheet" href="dest/styles.css">
-  <title>Document</title>
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"
+	integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+	crossorigin="anonymous"></script>
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="assets/scripts.js">  </script>
+<link rel="stylesheet" href="dest/styles.css">
+<title>Document</title>
 </head>
 <body>
-  <!--- navigation bar -->
-  <nav class="navigation">
-    <div class="container-fluid">
-      <ul class="nav">
-        <li class="nav-item">Etusivu</li>
-        <li class="nav-item" id="login">Kirjaudu sisään</li>
-      </ul>
-    </div>
-  </nav>
-  <div class="signin">
-    <div class="form-group">
-      <label class="sr-only" for="username">Käyttäjätunnus</label>
-      <input type="text" class="form-control" id="username" placeholder="Username">
-    </div>
-    <div class="form-group">
-      <label class="sr-only" for="password">Salasana:</label>
-      <input type="password" class="form-control" id="password" placeholder="Salasana">
-    </div>
-    <button class="btn btn-default" id="submit">Kirjaudu</button>
-    <button class="btn btn-default" id="createUser">Luo tunnus</button>
-  </div>
-  <!-- MAIN -->
-  <div class="container-fluid main">
-    <div class="col-md-12 theaterSelection section">
-      <div class="select col-md-12"></div>
-      <div class="shows col-md-12"></div>
-    </div>
+	<!--- navigation bar -->
+	<nav class="navigation">
+		<div class="container-fluid">
+			<ul class="nav">
+				<li class="nav-item"><a href="http://localhost:3000/">Etusivu</a></li>
+				<li class="nav-item" id="login">
+					<button class="btn btn-default" id="submit">Kirjaudu</button>
+				</li>
+				<li class="nav-item" id="usernameField"><label class="sr-only"
+					for="username">Käyttäjätunnus</label> <input type="text"
+					class="form-control" id="username" placeholder="Username">
+				</li>
+				<li class="nav-item" id="passwordField"><label class="sr-only"
+					for="password">Salasana:</label> <input type="password"
+					class="form-control" id="password" placeholder="Salasana">
+				</li>
+			</ul>
+		</div>
+	</nav>
+	<!-- MAIN -->
+	<div class="container-fluid indexView" id="view">
+		<h3>Main page</h3>
+		<div class="showMovies">
+			<div class="col-sm-4" id="theaters">
+			<h4 class="container-fluid">Theaters</h4>
+				<form class="container-fluid">
+					<select class="col-sm-12 theaterList" id="theaterList" onchange="selectMovies();"size=4>
+					</select>
+				</form>
+			</div>
+			<div class="col-sm-4" id="movies">
+			<h4 class="container-fluid">Movies</h4>
+				<form class="container-fluid">
+					<select class="col-sm-12 movieList" id="movieList" size=4 onchange="selectShows();">
+					</select>
+				</form>
+			</div>
+			<div class="col-sm-4" id="shows">
+			<h4 class="container-fluid">Shows</h4>
+				<form class="container-fluid">
+					<select class="col-sm-12 showList" id="showList" size=4>
+					</select>
+				</form>
+			</div>
+		</div>
+		<div class="movieImages">
+			<div class="col-sm-3" id="image_1"><img src="http://localhost:8081/getImage1"></div>
+			<div class="col-sm-3" id="image_2"><img src="http://localhost:8081/getImage2"></div>
+			<div class="col-sm-3" id="image_3"><img src="http://localhost:8081/getImage3"></div>
+			<div class="col-sm-3" id="image_4"><img src="http://localhost:8081/getImage4"></div>
+			<div class="col-sm-3" id="image_5"><img src="http://localhost:8081/getImage5"></div>
+			<div class="col-sm-3" id="image_6"><img src="http://localhost:8081/getImage6"></div>
+			<div class="col-sm-3" id="image_7"><img src="http://localhost:8081/getImage7"></div>
+			<div class="col-sm-3" id="image_8"><img src="http://localhost:8081/getImage8"></div>
+		</div>
+	</div>
 
-    <div class="col-md-12 theaterChart section">
 
-    </div>
-    <div id="view">
-    
-    </div>
-  </div>
 </body>
 </html>

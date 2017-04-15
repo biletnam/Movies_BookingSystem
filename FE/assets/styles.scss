@@ -56,9 +56,16 @@ body {
   *****/
   .main{
     padding: 20px;
+    background-color: $altBg;
+
+    -webkit-box-shadow: 4px 4px 19px 0px rgba(47, 50, 50, 0.67);
+    -moz-box-shadow:    4px 4px 19px 0px rgba(47, 50, 50, 0.67);
+    box-shadow:         4px 4px 19px 0px rgba(47, 50, 50, 0.67);
+
     .section{
-      background-color: $altBg;
-      padding: 20px;
+      
+
+
       .shows{
         div{
 
@@ -71,17 +78,27 @@ body {
     .theaterChart{
       h3{
         text-align: center;
+        border: 2px solid black;
+
+
       }
       #chart{
+        padding: 10px;
+        overflow: hidden;
+        overflow: scroll;
+        max-width: 100%;
         display: flex;
         flex-direction: column;
         align-items: center;
+
         .singleRow{
-          padding: 7px;
+          max-width: 100%;
+          padding: 7px 10px 7px 10px;
           .seat{
             margin: 2px;
             padding: 3px;
             border: 1px solid $border;
+            border-radius: 2px;
           }
           .free{
             background-color: green;

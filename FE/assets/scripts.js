@@ -1,7 +1,8 @@
 
+var userId = 1;
 $(document).ready(function(){
 
-	$(document).ready(function(){
+
 
 		/**
 		 * Get the theater names for the index page
@@ -15,8 +16,8 @@ $(document).ready(function(){
 				singleTheater.appendTo(".theaterList");
 			}
 		});
-	});
-	
+
+
 
 //	LOGIN
 	$("#submit").click(function(){
@@ -24,10 +25,10 @@ $(document).ready(function(){
 		let username = $("#username").val();
 		let password = $("#password").val();
 		$.post("http://localhost:8081/login", { username: username, password: password}, function(data){
-			
+
 			//Update the view
 			document.getElementById('view').innerHTML = data;
-			
+
 			//Get the theaters and shows (Used in customer view)
 			$.get("http://localhost:8081/getTheaters", function(response, status){
 
@@ -44,15 +45,15 @@ $(document).ready(function(){
 		let password = $("#password").val();
 		$.post("http://localhost:8081/createUser", { username: username, password: password}, function(data){
 
-			if(data == "success"){	
+			if(data == "success"){
 				console.log("User created");
 			}else{
 				console.log("fail");
 			}
 		})
 	})
-
 });
+
 
 /**
  * Get the shows of the selected theaters on index page
@@ -76,7 +77,7 @@ function selectMovies(){
 
 	});
 	$.get("http://localhost:8081/getMovies", function(response, status){
-		
+
 		let data = JSON.parse(response);
 		for(i=0; i < movieIds.length; i++){;
 			for(let movie of data.movies){
@@ -100,7 +101,7 @@ function selectShows(){
 	let movieList = document.getElementById("movieList");
 	let selectedMovie = movieList.options[movieList.selectedIndex];
 	let movieId = selectedMovie.value;
-	
+
 	$.get("http://localhost:8081/getTheaters", function(response, status){
 		let data = JSON.parse(response);
 		for(let theater of data.theaters){
@@ -118,8 +119,7 @@ function selectShows(){
 	});
 }
 
-var userId = 1;// /FOR DEVELOPMENT
-var selectedSeats = [];
+
 
 function printTheaterSelection(data){
 	$.get("http://localhost:8081/getTheaters", function(response, status){
@@ -147,9 +147,7 @@ function showTheater(selectedTheater){
 		let data = JSON.parse(response);
 		let theaterId = selectedTheater.value;
 		let theater = data.theaters.filter(function(t) {
-			if(t.id == theaterId){
-				return t;
-			}
+			return (t.id == theaterId);
 		})[0];
 
 		console.log(theater);
@@ -159,15 +157,12 @@ function showTheater(selectedTheater){
 			// print show info
 			for(let show of theater.shows){
 				let movie = mData.movies.filter(function(m) {
-					if(show.movieId == m.id){
-						console.log(m.title);
-						return m;
-					}
+				return (show.movieId == m.id);
 				})[0];
 
 				let date = new Date(show.date);
 				let showDiv = $("<div data-showid="+show.id+" data-theaterid="+theater.id+" onclick=console.log(this);showSeatingChart(this)></div>");
-				showDiv.append($("<span></span>").text(date.getDate()+"/"+date.getMonth()+"/"+date.getYear()+" " + date.getHours() +":" + date.getMinutes()));
+				showDiv.append($("<span></span>").text(date.getDate()+"/"+date.getMonth()+"/"+date.getFullYear()+" " + date.getHours() +":" + date.getMinutes()));
 				showDiv.append($("<h4></h4").text(movie.title));
 
 
@@ -184,7 +179,7 @@ function showTheater(selectedTheater){
 
 ////prints seating chart of selectedShow
 function showSeatingChart(selectedShow){
-	selectedSeats.length = 0;
+	reservation.seats.length = 0;
 	$(".chart").text("");
 	$(".theaterChart").text("");
 	$(".theaterChart").append($("<h3></h3>").text("VALKOKANGAS"));
@@ -196,15 +191,11 @@ function showSeatingChart(selectedShow){
 		let data = JSON.parse(response);
 		// get right theater
 		let theaterArray = data.theaters.filter(function(t) {
-			if(t.id == theaterId){
-				return t;
-			}
+			return (t.id == theaterId)
 		});
 		let theater = theaterArray[0];
 		let show = theater.shows.filter(function (s){
-			if(showId == s.id){
-				return s;
-			}
+			return (showId == s.id);
 		})[0];
 		let showHallId = show.hallId;
 		// get right hall
@@ -214,7 +205,7 @@ function showSeatingChart(selectedShow){
 			}
 		})[0];
 
-		let chart = $("<div data-showid="+show.id+" id ='chart'></div>");
+		let chart = $("<div data-theaterid="+theaterId+" data-showid="+show.id+" id ='chart'></div>");
 
 
 		// /print rows
@@ -245,11 +236,11 @@ function showSeatingChart(selectedShow){
 
 	});
 }
-
+//var userId = 1;// /FOR DEVELOPMENT
+var reservation = {userId: userId, seats:[]};
 ///seats click event
 function selectSeat(seat){
-
-
+	let theaterId = $("#chart").data("theaterid");
 	let showId = $("#chart").data("showid");
 	let row = $(seat).data("row");
 	let seatInRow = $(seat).data("seat");
@@ -261,24 +252,43 @@ function selectSeat(seat){
 	if($(seat).hasClass("selected")){
 		$(seat).removeClass("selected");
 		// remove selected seat form selectedSeats array
-		selectedSeats =   selectedSeats.filter(function(s){
-			if(s.seatTotal != seatTotal){
-				return s;
-			}
+		reservation.seats =   reservation.seats.filter(function(s){
+			return(s.seatTotal != seatTotal);
 		});
-		console.log(selectedSeats);
 	}else {
 		$(seat).addClass("selected");
 		// add selected seat to selectedSeats array
-		selectedSeats.push({userId: userId, showId: showId, row: row, seatInRow: seatInRow, seatTotal: seatTotal});
-		console.log(selectedSeats);
+		reservation.seats.push({theaterId: theaterId, showId: showId, row: row, seatInRow: seatInRow, seatTotal: seatTotal});
 	}
+
 
 	// print list of selected seats
 	$(".selectedSeats").text("");
 	let selectedSeatsDiv = $("<ul class='selectedSeats'></ul>").text("Valitut paikat");
-	for(let s of selectedSeats){
+	for(let s of reservation.seats){
 		selectedSeatsDiv.append($("<li></li>").text("Rivi: "+s.row +" Paikka: "+ s.seatInRow));
 	}
+	selectedSeatsDiv.append($("<button onClick='reserveSeats()'>Varaa paikat</button>"));
 	selectedSeatsDiv.appendTo(".theaterChart");
+}
+
+
+// Make a reservation request to server
+function reserveSeats(){
+	console.log(JSON.stringify(reservation));
+	console.log(reservation);
+
+		$.ajax({
+		  type: 'POST',
+		  data: JSON.stringify(reservation),
+		  contentType: 'application/json',
+		  url: 'http://localhost:8081/reservation',
+			success: function(data){
+				console.log(data);
+				reservation.seats.length = 0;
+				console.log(reservation);
+
+			}
+		});
+
 }

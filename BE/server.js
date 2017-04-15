@@ -54,14 +54,12 @@ app.get('/getImage8', function (req, res){
 
 app.get('/getMovies', function (req, res) {
   fs.readFile( __dirname + "/" + "movies.json", 'utf8', function (err, data) {
-    console.log( data );
     res.json( data );
   });
 })
 
 app.get('/getTheaters', function (req, res) {
   fs.readFile( __dirname + "/" + "theaters.json", 'utf8', function (err, data) {
-    console.log( data );
     res.json( data );
   });
 })
@@ -72,19 +70,18 @@ app.post('/login',function (req, res){
   let username = req.body.username;
   let password = req.body.password;
   console.log(username, password);
+
   fs.readFile( __dirname + "/" + "users.json", "utf8", function (err, data){
     let users = JSON.parse(data);
     console.log(users);
     for(let user of users.users){
-      console.log(user);
       if(user.username == username && user.password == password){
-    	  
     	valid = true;
     	admin = user.admin;
         break;
       }
     }
-    sendView(valid, admin); 
+    sendView(valid, admin);
   });
   function sendView(valid, admin){
 	  if(valid == false){
@@ -107,7 +104,7 @@ app.post('/login',function (req, res){
 				res.writeHead(404);
 				res.write('Not Found!');
 				}
-				else{
+				else{ 
 				res.write(data);
 				res.end();
 				}
@@ -121,6 +118,7 @@ app.post('/createUser',function (req, res){
   let username = req.body.username;
   let password = req.body.password;
   let admin = false;
+	console.log(req.body);
   console.log(username, password);
 
   fs.readFile( __dirname + "/" + "users.json", "utf8", function (err, data){
@@ -134,6 +132,16 @@ app.post('/createUser',function (req, res){
     res.end("success");
 
   });
+
+})
+
+
+// HANDLE RESERVATION
+app.post('/reservation', function(req, res){
+	const reservations = req.body;
+
+res.send("Succesfull reservation");
+
 
 })
 

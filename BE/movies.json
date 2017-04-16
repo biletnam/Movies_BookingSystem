@@ -1,4 +1,4 @@
-{"movies":[{
+[{
         "id": 1,
         "title": "Dawn of the Planet of the Apes",
         "releaseYear": 2014,
@@ -38,4 +38,4 @@
         "title": "Tangled",
         "releaseYear": 2010,
         "genre": ["Action", "Drama", "Sci-Fi"]
-    }]}
+    }]

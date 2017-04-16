@@ -1,1 +1,69 @@
-{"users":[{"username":"admin","password":"admin","admin":true, "id":1},{"username":"user","password":"user","admin":false, "id":2}]}
+[
+    {
+        "username": "admin",
+        "password": "admin",
+        "admin": true,
+        "id": 1,
+        "reservations": [
+            {
+                "theaterId": 2,
+                "showId": 1,
+                "seats": [
+                    131
+                ]
+            },
+            {
+                "theaterId": 2,
+                "showId": 1,
+                "seats": [
+                    132
+                ]
+            },
+            {
+                "theaterId": 2,
+                "showId": 1,
+                "seats": [
+                    99,
+                    100
+                ]
+            },
+            {
+                "theaterId": 2,
+                "showId": 1,
+                "seats": [
+                    172
+                ]
+            },
+            {
+                "theaterId": 2,
+                "showId": 1,
+                "seats": [
+                    210,
+                    72
+                ]
+            },
+            {
+                "theaterId": 2,
+                "showId": 2,
+                "seats": [
+                    49,
+                    115,
+                    114
+                ]
+            },
+            {
+                "theaterId": 1,
+                "showId": 2,
+                "seats": [
+                    100
+                ]
+            }
+        ]
+    },
+    {
+        "username": "user",
+        "password": "user",
+        "admin": false,
+        "id": 2
+    }
+]

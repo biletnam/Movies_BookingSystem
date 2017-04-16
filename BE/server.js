@@ -74,7 +74,7 @@ app.post('/login',function (req, res){
   fs.readFile( __dirname + "/" + "users.json", "utf8", function (err, data){
     let users = JSON.parse(data);
     console.log(users);
-    for(let user of users.users){
+    for(let user of users){
       if(user.username == username && user.password == password){
     	valid = true;
     	admin = user.admin;
@@ -104,7 +104,7 @@ app.post('/login',function (req, res){
 				res.writeHead(404);
 				res.write('Not Found!');
 				}
-				else{ 
+				else{
 				res.write(data);
 				res.end();
 				}
@@ -124,7 +124,7 @@ app.post('/createUser',function (req, res){
   fs.readFile( __dirname + "/" + "users.json", "utf8", function (err, data){
 
     let users = JSON.parse(data);
-    users.users.push({username: username, password: password, admin: admin});
+    users.push({username: username, password: password, admin: admin});
 
     fs.writeFile(__dirname + "/" + "users.json", JSON.stringify(users), function (err) {
       console.log(users);
@@ -136,11 +136,38 @@ app.post('/createUser',function (req, res){
 })
 
 
-// HANDLE RESERVATION
+// HANDLE RESERVATION -> add reservation info to user in users.json file
 app.post('/reservation', function(req, res){
-	const reservations = req.body;
+	const reservation = req.body;
+	console.log(reservation);
+	fs.readFile( __dirname + "/" + "users.json", "utf8", function (err, data){
 
-res.send("Succesfull reservation");
+    let users = JSON.parse(data);
+		let seats = [];
+		for(let seat of reservation.seats){
+			seats.push(seat.seatTotal);
+		}
+		const newUsers = users.map((u) =>{
+				if(u.id == reservation.userId){
+					if(u.reservations != undefined || u.reservations != null){
+						u.reservations.push({theaterId: reservation.theaterId, showId: reservation.showId, seats: seats });
+						console.log("ready");
+					}else{
+						u.reservations = [{theaterId: reservation.theaterId, showId: reservation.showId, seats: seats}];
+						console.log("created");
+					}
+				};
+				return u;
+		});
+
+
+    fs.writeFile(__dirname + "/" + "users.json", JSON.stringify(newUsers,null,4), function (err) {
+      console.log(newUsers);
+    });
+		res.send("Succesfull reservation");
+
+  });
+
 
 
 })

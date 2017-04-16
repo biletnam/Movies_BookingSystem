@@ -4,22 +4,21 @@ $(document).ready(function(){
 
 
 
-		/**
-		 * Get the theater names for the index page
-		 */
-		$.get("http://localhost:8081/getTheaters", function(response, status){
+	/**
+	* Get the theater names for the index page
+	*/
+	$.get("http://localhost:8081/getTheaters", function(response, status){
 
-			let data = JSON.parse(response);
-			console.log(data.theaters);
-			for(let theater of data.theaters){
-				let singleTheater = $("<option>"+ theater.name +"</option>");
-				singleTheater.appendTo(".theaterList");
-			}
-		});
-
+		let data = JSON.parse(response);
+		for(let theater of data.theaters){
+			let singleTheater = $("<option>"+ theater.name +"</option>");
+			singleTheater.appendTo(".theaterList");
+		}
+	});
 
 
-//	LOGIN
+
+	//	LOGIN
 	$("#submit").click(function(){
 
 		let username = $("#username").val();
@@ -33,7 +32,7 @@ $(document).ready(function(){
 			$.get("http://localhost:8081/getTheaters", function(response, status){
 
 				let data = JSON.parse(response);
-				console.log(data.theaters);
+				getUserReservations(data.theaters);
 				printTheaterSelection(data);
 			});
 		});
@@ -56,8 +55,8 @@ $(document).ready(function(){
 
 
 /**
- * Get the shows of the selected theaters on index page
- */
+* Get the shows of the selected theaters on index page
+*/
 function selectMovies(){
 	document.getElementById('movieList').innerHTML = "<select class=\"col-sm-12 movieList\" id=\"movieList\"size=4></select>";
 	let theaterList = document.getElementById("theaterList");
@@ -92,8 +91,8 @@ function selectMovies(){
 }
 
 /**
- * Get the shows for the selected movies on index page
- */
+* Get the shows for the selected movies on index page
+*/
 function selectShows(){
 	document.getElementById('showList').innerHTML = "<select class=\"col-sm-12 showList\" id=\"showList\"size=4></select>";
 	let theaterList = document.getElementById("theaterList");
@@ -125,7 +124,7 @@ function printTheaterSelection(data){
 	$.get("http://localhost:8081/getTheaters", function(response, status){
 		// print dropdown select
 		let data = JSON.parse(response);
-		console.log(data.theaters);
+
 		let list = $("<select  onchange=showTheater(this);></select>");
 		list.append($("<option selected disabled></option").text("Valitse teatteri"));
 		for(let theater of data.theaters){
@@ -157,12 +156,12 @@ function showTheater(selectedTheater){
 			// print show info
 			for(let show of theater.shows){
 				let movie = mData.movies.filter(function(m) {
-				return (show.movieId == m.id);
+					return (show.movieId == m.id);
 				})[0];
 
 				let date = new Date(show.date);
 				let showDiv = $("<div data-showid="+show.id+" data-theaterid="+theater.id+" onclick=console.log(this);showSeatingChart(this)></div>");
-				showDiv.append($("<span></span>").text(date.getDate()+"/"+date.getMonth()+"/"+date.getFullYear()+" " + date.getHours() +":" + date.getMinutes()));
+				showDiv.append($("<span>"+date.getDate()+"/"+date.getMonth()+"/"+date.getFullYear()+" " + date.getHours() +":" + date.getMinutes()+"</span>"));
 				showDiv.append($("<h4></h4").text(movie.title));
 
 
@@ -230,13 +229,10 @@ function showSeatingChart(selectedShow){
 			for(let seat of reservations.seats){
 				$("#"+seat).addClass("reserved");
 				$("#"+seat).removeClass("free");
-
 			}
 		}
-
 	});
 }
-//var userId = 1;// /FOR DEVELOPMENT
 var reservation = {userId: userId, seats:[]};
 ///seats click event
 function selectSeat(seat){
@@ -245,7 +241,9 @@ function selectSeat(seat){
 	let row = $(seat).data("row");
 	let seatInRow = $(seat).data("seat");
 	let seatTotal = $(seat).data("seattotal");
-
+	reservation.theaterId = theaterId;
+	reservation.showId = showId;
+	
 	if($(seat).hasClass("reserved")){
 		return false;
 	}
@@ -275,20 +273,27 @@ function selectSeat(seat){
 
 // Make a reservation request to server
 function reserveSeats(){
-	console.log(JSON.stringify(reservation));
-	console.log(reservation);
+	$.ajax({
+		type: 'POST',
+		data: JSON.stringify(reservation),
+		contentType: 'application/json',
+		url: 'http://localhost:8081/reservation',
+		success: function(data){
+			console.log(data);
+			reservation.seats.length = 0;
+			console.log(reservation);
 
-		$.ajax({
-		  type: 'POST',
-		  data: JSON.stringify(reservation),
-		  contentType: 'application/json',
-		  url: 'http://localhost:8081/reservation',
-			success: function(data){
-				console.log(data);
-				reservation.seats.length = 0;
-				console.log(reservation);
+		}
+	});
+	$(".selectedSeats").html("");
+}
 
-			}
+function getUserReservations(theaters){
+
+$.get("http://localhost:8081/getMovies", function(response, status){
+
+	let movies = JSON.parse(response);
+
+
 		});
-
 }

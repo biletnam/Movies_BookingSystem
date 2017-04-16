@@ -165,15 +165,15 @@ app.post('/reservation', function(req, res){
 			let t = JSON.parse(data);
 
 			const theaters = t.map((theater)=>{
-							if(theater.id == reservation.theaterId){
-								for(let show of theater.shows){
-									if(show.id == reservation.showId){
-										show.reservations.push({userId: reservation.userId, seats: seats});
-										return theater;
-									}
-								}
-							}
+				if(theater.id == reservation.theaterId){
+					for(let show of theater.shows){
+						if(show.id == reservation.showId){
+							show.reservations.push({userId: reservation.userId, seats: seats});
 							return theater;
+						}
+					}
+				}
+				return theater;
 			})
 
 			fs.writeFile(__dirname + "/" + "theaters.json", JSON.stringify(theaters,null,4), function (err) {
@@ -220,41 +220,101 @@ app.get('/getUserReservations/:id', function (req, res) {
 
 				if(user.reservations){
 
-				for(let r of user.reservations){
-					for(let t of theaters){
-						if(r.theaterId == t.id){
-							r.theaterName = t.name;
-							for(let show of t.shows){
-								if(r.showId == show.id){
-									for(let hall of t.halls){
-										if(hall.id == show.hallId){
-											r.hallName = hall.name;
+					for(let r of user.reservations){
+						for(let t of theaters){
+							if(r.theaterId == t.id){
+								r.theaterName = t.name;
+								for(let show of t.shows){
+									if(r.showId == show.id){
+										for(let hall of t.halls){
+											if(hall.id == show.hallId){
+												r.hallName = hall.name;
+											}
 										}
+										for(let movie of movies){
+											if(show.movieId == movie.id){
+												r.movieName = movie.title;
+											}
+										}
+										r.showDate = show.date;
+
 									}
-								}
-								r.showDate = show.date;
-								for(let movie of movies){
-									if(show.movieId == movie.id){
-										r.movieName = movie.title;
-									}
+
 								}
 							}
 						}
+						result.push(r);
 					}
-					result.push(r);
 				}
-			}
 				res.send(JSON.stringify(result));
 			});
 		});
 	});
 })
 
-var server = app.listen(8081, function () {
+app.post('/removeReservation',function (req, res){
+	let theaterId = req.body.theaterId;
+	let userId = req.body.userId;
+	let showId = req.body.showId;
+	let seats = req.body.seats;
+	console.log(theaterId, userId, showId, seats);
 
-	var host = server.address().address
-	var port = server.address().port
+	fs.readFile( __dirname + "/" + "users.json", 'utf8', function (err, data) {
+		let users = JSON.parse(data);
 
-	console.log(" app listening at http://%s:%s", host, port)
 
-})
+		//create new object containing new user data
+		const newUsers = users.map((u) =>{
+				if(u.id == userId){
+					if(u.reservations != null && u.reservations != undefined && u.reservations.length != 0){
+				 u.reservations = 	u.reservations.filter((r)=>{
+						return(r.theaterId != theaterId || r.showId != showId || r.seats != seats);
+					})
+				}
+					}
+					return u;
+
+		});
+		fs.writeFile(__dirname + "/" + "users.json", JSON.stringify(newUsers,null,4), function (err) {
+			res.send("success");
+		});
+	});
+
+
+			fs.readFile( __dirname + "/" + "theaters.json", "utf8", function (err, data){
+			let t = JSON.parse(data);
+
+			const theaters = t.map((theater)=>{
+				if(theater.id == theaterId){
+				theater.shows = theater.shows.map((show)=>{
+					if(showId == show.id){
+					if(show.reservations != null || show.reservations.length != 0 || show.reservations != undefined){
+						show.reservations = show.reservations.filter((res)=>{
+							return (res.userId != userId || res.seats != seats);
+						});
+					}
+				}
+				return show;
+			});
+					}
+					return theater;
+				});
+				fs.writeFile(__dirname + "/" + "theaters.json", JSON.stringify(theaters,null,4), function (err) {
+				});
+			})
+
+
+		})
+
+
+
+
+
+	var server = app.listen(8081, function () {
+
+		var host = server.address().address
+		var port = server.address().port
+
+		console.log(" app listening at http://%s:%s", host, port)
+
+	})

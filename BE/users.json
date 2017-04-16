@@ -11,37 +11,6 @@
         "password": "user",
         "admin": false,
         "id": 2,
-        "reservations": [
-            {
-                "theaterId": 1,
-                "showId": 1,
-                "seats": [
-                    56,
-                    57
-                ]
-            },
-            {
-                "theaterId": 1,
-                "showId": 2,
-                "seats": [
-                    82,
-                    81
-                ]
-            },
-            {
-                "theaterId": 1,
-                "showId": 2,
-                "seats": [
-                    140
-                ]
-            },
-            {
-                "theaterId": 2,
-                "showId": 1,
-                "seats": [
-                    1
-                ]
-            }
-        ]
+        "reservations": []
     }
 ]

@@ -362,6 +362,7 @@ function reserveSeats(){
 		success: function(data){
 			reservation.seats.length = 0;
 			updateSeatingChart(reservation.theaterId, reservation.showId);
+			getUserReservations();
 			alert("Varaus onnistui!");
 		}
 	});
@@ -370,8 +371,10 @@ function reserveSeats(){
 
 }
 
-function getUserReservations(theaters){
-	console.log(theaters);
+function getUserReservations(){
+	$(".customerView").empty();
+	$(".customerView").append($("<h3>Oma sivu</h3>"));
+
 	$(".customerView").append($("<h3>Varaukset</h3>"));
 	$(".customerView").append($("<div class='reservations'></div>"));
 
@@ -382,7 +385,7 @@ function getUserReservations(theaters){
 			let date = new Date(res.showDate);
 			$(".reservations").append($("<div class='reservation'><h4 class='title'>"+res.movieName+"</h4><span class='date'>"
 			+date.getDate()+"/"+date.getMonth()+"/"+date.getFullYear()+" " + date.getHours() +":" + date.getMinutes()+"</span><span class='theater-name'>"+res.theaterName+"</span>"+
-			"<span class='hall-name'>"+ res.hallName+"</span><span class='reservation-seats'>"+res.seats.length+"</span></div>"));
+			"<span class='hall-name'>"+ res.hallName+"</span><span class='reservation-seats'>"+res.seats.length+"</span><button data-theaterid="+res.theaterId+" data-showid="+res.showId+" data-seats="+res.seats+" onClick='removeReservation(this);'>Poista varaus</button></div>"));
 
 
 		}
@@ -390,5 +393,20 @@ function getUserReservations(theaters){
 	$.get("http://localhost:8081/getMovies", function(response, status){
 		let movies = JSON.parse(response);
 
+	});
+}
+
+
+function removeReservation(reservation){
+	let theaterId = $(reservation).data("theaterid");
+	let showId = $(reservation).data("showid");
+	let seats = $(reservation).data("seats");
+	console.log(theaterId, userId, showId, seats);
+
+
+	$.post("http://localhost:8081/removeReservation", { userId: userId, theaterId: theaterId, showId: showId, seats: seats}, function(data){
+		console.log(data);
+		updateSeatingChart(theaterId, showId);
+		getUserReservations();
 	});
 }

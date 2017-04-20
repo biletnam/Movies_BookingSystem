@@ -1,16 +1,1 @@
-[
-    {
-        "username": "admin",
-        "password": "admin",
-        "admin": true,
-        "id": 1,
-        "reservations": []
-    },
-    {
-        "username": "user",
-        "password": "user",
-        "admin": false,
-        "id": 2,
-        "reservations": []
-    }
-]
+[{"username":"admin","password":"admin","admin":true,"id":1,"reservations":[]},{"username":"user","password":"user","admin":false,"id":2,"reservations":[]}}]

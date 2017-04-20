@@ -43,19 +43,6 @@ $(document).ready(function(){
 		});
 	});
 
-	$("#createUser").click(function(){
-
-		let username = $("#username").val();
-		let password = $("#password").val();
-		$.post("http://localhost:8081/createUser", { username: username, password: password}, function(data){
-
-			if(data == "success"){
-				console.log("User created");
-			}else{
-				console.log("fail");
-			}
-		})
-	})
 });
 
 
@@ -123,7 +110,25 @@ function selectShows(){
 	});
 }
 
+/**
+ * Create new users from Admin view
+ */
+function createUser(){
+	
 
+	let username = $("#newUsername").val();
+	let password = $("#newPassword").val();
+	let admin = document.getElementById("checkAdmin").checked;
+	
+	$.post("http://localhost:8081/createUser", { username: username, password: password, admin: admin}, function(data){
+
+		if(data == "success"){
+			alert("User " + username + " created");
+		}else{
+			alert("Sorry, something went wrong...");
+			}
+		})
+}
 
 function printTheaterSelection(data){
 	$.get("http://localhost:8081/getTheaters", function(response, status){
@@ -138,8 +143,8 @@ function printTheaterSelection(data){
 		}
 		list.appendTo(".select");
 	});
-
 }
+
 
 
 ///prints shows in selectedTheater
@@ -177,8 +182,9 @@ function showTheater(selectedTheater){
 		});
 
 	});
-
 }
+
+
 
 
 ////prints seating chart of selectedShow

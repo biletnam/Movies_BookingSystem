@@ -1,6 +1,14 @@
   <div class="adminView">
-	<h3>Admin view</h3>
+	<h3 class="title">Admin</h3>
   </div>
   <div>  
-    <button class="btn btn-default" id="createUser">Luo tunnus</button>
+    <form action="http://localhost:8081/createUser" method="post">
+    Username:<br>
+    <input type="text" id="newUsername"><br>
+    Password:<br>
+    <input type="password" id="newPassword"><br>
+    Admin:<br>
+    <input type="checkbox" id="checkAdmin"><br>
+    <input type="button" value="Create User" onClick="createUser();">
+    </form>
   </div>

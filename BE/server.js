@@ -132,11 +132,16 @@ app.post('/createUser',function (req, res){
 	let username = req.body.username;
 	let password = req.body.password;
 	let admin = false;
+	
+	if(req.body.admin === "true"){
+		admin = true;
+	};
 
 	fs.readFile( __dirname + "/" + "users.json", "utf8", function (err, data){
 
 		let users = JSON.parse(data);
-		users.push({username: username, password: password, admin: admin});
+		let id = users.length +1;
+		users.push({username: username, password: password, admin: admin, id: id, reservations: []});
 
 		fs.writeFile(__dirname + "/" + "users.json", JSON.stringify(users), function (err) {
 			//console.log(users);

@@ -1,7 +1,5 @@
 /***********************
-
 COLORS
-
 *************************/
 
 $bg: #E1E1E1;
@@ -114,10 +112,21 @@ body {
       }
     }
   }
-  .indexView{
-    height: 100%;
-    width: 100%;
-  }
+ .indexView{
+   height: 100%;
+   width: 100%;
+   text-align: center;
+   font-family: "Times New Roman", Times, serif;
+   .title{
+   	border-bottom: 2px solid black;
+   	}
+   	
+   .showMovies{
+   	#theaterList{
+   		text-align: center;
+   }
+ }
+}
   .customerView{
     height: 70%;
     overflow: hidden;
@@ -139,6 +148,12 @@ body {
         }
       }
     }
+  }
+  .adminView{
+  	.title{
+  	font-family: "Times New Roman", Times, serif;
+  	font-size: 30px;
+  	}
   }
 }
 

@@ -132,7 +132,7 @@ app.post('/createUser',function (req, res){
 	let username = req.body.username;
 	let password = req.body.password;
 	let admin = false;
-	
+
 	if(req.body.admin === "true"){
 		admin = true;
 	};
@@ -143,7 +143,7 @@ app.post('/createUser',function (req, res){
 		let id = users.length +1;
 		users.push({username: username, password: password, admin: admin, id: id, reservations: []});
 
-		fs.writeFile(__dirname + "/" + "users.json", JSON.stringify(users), function (err) {
+		fs.writeFile(__dirname + "/" + "users.json", JSON.stringify(users, null, 4), function (err) {
 			//console.log(users);
 		});
 		res.end("success");

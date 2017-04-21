@@ -31,15 +31,18 @@ $(document).ready(function(){
 
 			$.post("http://localhost:8081/getUserId",{username: username, password: password},function(response){
 				userId = response;
+				if(userId != null && userId != undefined){
+					$.get("http://localhost:8081/getTheaters", function(response, status){
+
+						let data = JSON.parse(response);
+						getUserReservations(data);
+						printTheaterSelection(data);
+					});
+				}
 
 			});
 			//Get the theaters and shows (Used in customer view)
-			$.get("http://localhost:8081/getTheaters", function(response, status){
 
-				let data = JSON.parse(response);
-				getUserReservations(data);
-				printTheaterSelection(data);
-			});
 		});
 	});
 
@@ -114,12 +117,12 @@ function selectShows(){
  * Create new users from Admin view
  */
 function createUser(){
-	
+
 
 	let username = $("#newUsername").val();
 	let password = $("#newPassword").val();
 	let admin = document.getElementById("checkAdmin").checked;
-	
+
 	$.post("http://localhost:8081/createUser", { username: username, password: password, admin: admin}, function(data){
 
 		if(data == "success"){

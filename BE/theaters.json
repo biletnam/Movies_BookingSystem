@@ -36,7 +36,14 @@
                 "movieId": 2,
                 "date": "2017-04-27T18:30:49+03:00",
                 "hallId": 1,
-                "reservations": []
+                "reservations": [
+                    {
+                        "userId": "4",
+                        "seats": [
+                            1
+                        ]
+                    }
+                ]
             },
             {
                 "id": 2,
@@ -84,7 +91,21 @@
                 "movieId": 1,
                 "date": "2017-04-27T17:30:49+03:00",
                 "hallId": 1,
-                "reservations": []
+                "reservations": [
+                    {
+                        "userId": "2",
+                        "seats": [
+                            70,
+                            133
+                        ]
+                    },
+                    {
+                        "userId": "2",
+                        "seats": [
+                            77
+                        ]
+                    }
+                ]
             },
             {
                 "id": 2,

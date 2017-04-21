@@ -78,8 +78,13 @@ body {
       h3{
         text-align: center;
         border: 2px solid black;
-
-
+      }
+      .selectedSeats{
+        list-style-type: none;
+        padding-left: none;
+        li{
+          padding: 5px;
+        }
       }
       #chart{
         padding: 10px;
@@ -120,8 +125,10 @@ body {
    .title{
    	border-bottom: 2px solid black;
    	}
-   	
+
    .showMovies{
+     max-height: 50%;
+     padding: 20px;
    	#theaterList{
    		text-align: center;
    }

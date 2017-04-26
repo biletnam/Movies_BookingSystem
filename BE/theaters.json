@@ -33,29 +33,22 @@
         "shows": [
             {
                 "id": 1,
-                "movieId": 2,
-                "date": "2017-04-27T18:30:49+03:00",
+                "movieId": 1,
+                "startDate": "2017-04-01T01:00:00.000Z",
+                "endDate": "2017-04-30T01:00:00.000Z",
+                "startTime": "2017-01-01T16:00:00.000Z",
+                "endTime": "2017-01-01T19:00:00.000Z",
                 "hallId": 1,
-                "reservations": [
-                    {
-                        "userId": "4",
-                        "seats": [
-                            1
-                        ]
-                    },
-                    {
-                        "userId": "2",
-                        "seats": [
-                            26
-                        ]
-                    }
-                ]
+                "reservations": []
             },
             {
                 "id": 2,
-                "movieId": 4,
-                "date": "2017-04-29T19:30:49+03:00",
-                "hallId": 0,
+                "movieId": 2,
+                "startDate": "2017-02-28T22:00:00.000Z",
+                "endDate": "2017-03-30T21:00:00.000Z",
+                "startTime": "2017-01-01T16:00:00.000Z",
+                "endTime": "2017-01-01T18:00:00.000Z",
+                "hallId": 2,
                 "reservations": []
             }
         ]
@@ -93,31 +86,23 @@
         ],
         "shows": [
             {
-                "id": 1,
-                "movieId": 1,
-                "date": "2017-04-27T17:30:49+03:00",
+                "id": 3,
+                "movieId": 3,
+                "startDate": "2017-04-30T21:00:00.000Z",
+                "endDate": "2017-05-30T21:00:00.000Z",
+                "startTime": "2017-01-01T14:00:00.000Z",
+                "endTime": "2017-01-01T16:00:00.000Z",
                 "hallId": 1,
-                "reservations": [
-                    {
-                        "userId": "2",
-                        "seats": [
-                            70,
-                            133
-                        ]
-                    },
-                    {
-                        "userId": "2",
-                        "seats": [
-                            77
-                        ]
-                    }
-                ]
+                "reservations": []
             },
             {
-                "id": 2,
-                "movieId": 3,
-                "date": "2017-04-29T21:00:49+03:00",
-                "hallId": 0,
+                "id": 4,
+                "movieId": 1,
+                "startDate": "2017-03-31T21:00:00.000Z",
+                "endDate": "2017-04-29T21:00:00.000Z",
+                "startTime": "2017-01-01T18:00:00.000Z",
+                "endTime": "2017-01-01T20:00:00.000Z",
+                "hallId": 2,
                 "reservations": []
             }
         ]

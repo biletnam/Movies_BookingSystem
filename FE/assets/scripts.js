@@ -7,14 +7,7 @@ $(document).ready(function(){
 	/**
 	* Get the theater names for the index page
 	*/
-	$.get("http://localhost:8081/getTheaters", function(response, status){
-
-		let data = JSON.parse(response);
-		for(let theater of data){
-			let singleTheater = $("<option>"+ theater.name +"</option>");
-			singleTheater.appendTo(".theaterList");
-		}
-	});
+	getTheaters();
 
 
 
@@ -28,6 +21,9 @@ $(document).ready(function(){
 
 			//Update the view
 			document.getElementById('view').innerHTML = data;
+			
+			getTheaters() //Get theaters for the admin view
+			modalShow()
 
 			$.post("http://localhost:8081/getUserId",{username: username, password: password},function(response){
 				userId = response;
@@ -103,9 +99,16 @@ function selectShows(){
 				let shows = theater.shows;
 				for(let show of shows){
 					if(movieId == show.movieId){
-						let showDate = new Date(show.date);
-						let singleShow = $("<option>" + showDate.getHours() + ":" + showDate.getMinutes() +"</option>");
-						singleShow.appendTo(".showList");
+						let showId = show.id;
+						let startDate = new Date(show.startDate);
+						let endDate = new Date(show.endDate);
+						let startTime = new Date(show.startTime);
+						let endTime = new Date(show.endTime);
+						let showDate = startDate.toDateString() + " - " + endDate.toDateString();
+						let showTime = " | Time: " + convertTime(startTime.getHours()) + ":" + convertTime(startTime.getMinutes()) +
+								" - " + convertTime(endTime.getHours()) + ":" + convertTime(endTime.getMinutes());
+						let showDateline = $("<option value=\""+ showId + "\">" + showDate + showTime + "</option>");
+						showDateline.appendTo(".showList");
 					}
 				}
 			}
@@ -148,7 +151,229 @@ function printTheaterSelection(data){
 	});
 }
 
+/**
+ * Create new Movie with title, release year and genre
+ */
+function createMovie(){
+	
+	let title = $("#newMovieTitle").val();
+	let year = $("#newMovieYear").val();
+	let genre = []; 
+	
+	
+	if (document.getElementById("action").checked){
+		genre.push("Action");
+	}
+	if (document.getElementById("drama").checked){
+		genre.push("Drama");
+	}
+	if (document.getElementById("sci-fi").checked){
+		genre.push("Sci-Fi");
+	}
+	if (document.getElementById("thriller").checked){
+		genre.push("Thriller");
+	}
+	if (document.getElementById("commedy").checked){
+		genre.push("Commedy");
+	}
+	if (document.getElementById("adventure").checked){
+		genre.push("Adventure");
+	}
+	
+	$.post("http://localhost:8081/createMovie", {title: title, year: year, genre: JSON.stringify(genre)}, function(data){
+		alert(data);
+	});
+	document.getElementById("newMovieTitle").value = "";
+	document.getElementById("newMovieYear").value = "";
+	getMovies();
+	document.getElementById('showList').innerHTML = "<select class=\"col-sm-12 showList\" id=\"showList\"size=4></select>";
+}
 
+/**
+ * Get theaters from server and attach them to .theaterList div
+ * 
+ */
+function getTheaters(){
+	
+	$.get("http://localhost:8081/getTheaters", function(response, status){
+		
+		document.getElementById("theaterList").innerHTML = "";
+		
+		let data = JSON.parse(response);
+		for(let theater of data){
+			let singleTheater = $("<option>"+ theater.name +"</option>");
+			singleTheater.appendTo(".theaterList");
+		}
+	});
+}
+
+/**
+ * Get movies on the admin page
+ * 
+ */
+function getMovies(){
+	document.getElementById('movieList').innerHTML = "<select class=\"col-sm-12 movieList\" id=\"movieList\"size=4></select>";
+	var movieIds = [];
+
+	$.get("http://localhost:8081/getMovies", function(response, status){
+
+		let data = JSON.parse(response);
+		let movies = data;
+		for(let movie of movies){
+			let singleMovie = $("<option value=\""+ movie.id + "\">"+ movie.title +"</option>");
+			singleMovie.appendTo(".movieList");
+		}
+	});
+
+}
+
+/**
+ * Opens modal window to add new show
+ */
+function modalShow(){
+	emptyModal();
+	// Get the modal
+	let modal = document.getElementById('modalShow');
+
+	// Get the button that opens the modal
+	let btn = document.getElementById("moviesButton");
+
+	// Get the <span> element that closes the modal
+	var span = document.getElementsByClassName("close")[0];
+
+	// When the user clicks the button, open the modal 
+	btn.onclick = function() {
+		
+		let movieList = document.getElementById("movieList");
+		let selectedMovie = movieList.options[movieList.selectedIndex];
+		
+		if(selectedMovie == undefined){
+			alert("Select a theater and a movie");
+		} else {
+			modal.style.display = "block";
+		}
+	}
+
+	// When the user clicks on <span> (x), close the modal
+	span.onclick = function() {
+	    modal.style.display = "none";
+	}
+
+	// When the user clicks anywhere outside of the modal, close it
+	window.onclick = function(event) {
+	    if (event.target == modal) {
+	        modal.style.display = "none";
+	    }
+	}
+}
+
+function emptyModal(){
+	document.getElementById("startDate").value = "";
+	document.getElementById("endDate").value = "";
+	document.getElementById("startTimeHours").value = "";
+	document.getElementById("startTimeMinutes").value = "";
+	document.getElementById("endTimeHours").value = "";
+	document.getElementById("endTimeMinutes").value = "";
+	document.getElementById("hallId").value = "";
+}
+
+
+/**
+ * Adds a new show to select movie in admin view
+ * 
+ */
+function addShow(){
+	document.getElementById('showList').innerHTML = "<select class=\"col-sm-12 showList\" id=\"showList\"size=4></select>";
+	let theaterList = document.getElementById("theaterList");
+	let selectedTheater = theaterList.options[theaterList.selectedIndex];
+	let movieList = document.getElementById("movieList");
+	let selectedMovie = movieList.options[movieList.selectedIndex];
+	let movieId = selectedMovie.value;
+
+
+	let startDate = new Date ($("#startDate").val());
+	//startDate.setHours(4); //Koska aika muuttuu kun kutsutaan JSON.stingify, korjataan etukäteen
+	let endDate = new Date ($("#endDate").val());
+	
+	let startTime = new Date("2017/01/01"); // Tästä meitä kiinnostaa vain
+											// kellonaika
+	startTime.setHours($("#startTimeHours").val());
+	startTime.setMinutes($("#startTimeMinutes").val());
+
+	let endTime = new Date("2017/01/01"); // Tästä meitä kiinnostaa vain
+											// kellonaika
+	endTime.setHours($("#endTimeHours").val());
+	endTime.setMinutes($("#endTimeMinutes").val());
+	let hallId = $("#hallId").val();
+
+	$.post("http://localhost:8081/createShow",
+			{theater: selectedTheater.text, movieId: selectedMovie.value, hallId: hallId,  startDate: JSON.stringify(startDate), 
+		endDate: JSON.stringify(endDate), startTime: JSON.stringify(startTime), endTime: JSON.stringify(endTime)}, function(data){
+			alert(data);
+		});
+	document.getElementById('showList').innerHTML = "<select class=\"col-sm-12 showList\" id=\"showList\"size=4></select>";
+    getMovies();
+	emptyModal();
+}
+
+/*
+ * Used to show hours and minutes in correct format
+ * Adds 0 if value < 10. 
+ */
+function convertTime(value){
+	if(value < 10) {
+        return '0' + value;
+    } else {
+        return value;
+    }	
+}
+
+/**
+ * Removes selected movie and its shows
+ * 
+ */
+function removeMovie(){
+	let movieList = document.getElementById("movieList");
+	let movieTitle= movieList.options[movieList.selectedIndex].text;
+	let movieId = movieList.options[movieList.selectedIndex].value;
+	let showList = document.getElementById("showList");
+	let showInfo= showList.options[movieList.selectedIndex].text;
+	
+    if (confirm("Are you sure you want to remove the show " + movieTitle + 
+    		"\n" + showInfo + "\nTheater: ") == false) {
+    	return;
+    } 
+    $.post("http://localhost:8081/deleteMovie",{movieTitle: movieTitle, movieId: movieId}, function(data){
+			alert(data);
+		});
+	document.getElementById('showList').innerHTML = "<select class=\"col-sm-12 showList\" id=\"showList\"size=4></select>";
+    getMovies();
+}
+
+/**
+ * Removes selected show on admin page
+ * 
+ */
+function removeShow(){
+	let theaterList = document.getElementById("theaterList");
+	let theaterName = theaterList.options[theaterList.selectedIndex].text;
+	let movieList = document.getElementById("movieList");
+	let movieTitle= movieList.options[movieList.selectedIndex].text;
+	let movieId = movieList.options[movieList.selectedIndex].value;
+	let showList = document.getElementById("showList");
+	let showInfo = showList.options[showList.selectedIndex].text;
+	let showId = showList.options[showList.selectedIndex].value;
+	
+    if (confirm("Are you sure you want to remove the show:\n" + theaterName + "\n" +
+    		movieTitle + "\n" + showInfo + "?") == false) {
+    	return;
+    } 
+    $.post("http://localhost:8081/deleteShow",{theaterName: theaterName, movieTitle: movieTitle, movieId: movieId, showId: showId, showInfo: showInfo}, function(data){
+			alert(data);
+		});
+	document.getElementById('showList').innerHTML = "<select class=\"col-sm-12 showList\" id=\"showList\"size=4></select>";
+    getMovies();
+}
 
 ///prints shows in selectedTheater
 function showTheater(selectedTheater){

@@ -1,14 +1,85 @@
-  <div class="adminView">
+<div class="adminView">
 	<h3 class="title">Admin</h3>
+	<div class="addUser col-sm-12"> 
+  		<h2 class="subtitle">Create new user</h2> 
+    	<form>
+    		Username:<br>
+    		<input type="text" id="newUsername"><br>
+    		Password:<br>
+   	 		<input type="password" id="newPassword"><br>
+    		Admin:
+    		<input type="checkbox" id="checkAdmin"><br>
+    		<input type="button" value="Create User" onClick="createUser();">
+  	</form>
+	</div>
+<div class="addMovie col-sm-12">
+	<h2 class="subtitle">Add new movies</h2>
+	<form>
+  	Title:<br>
+  	<input type="text" id="newMovieTitle"><br>
+  	Release year:<br>
+  	<input type="text" id="newMovieYear"><br>
+  	Genre:<br>
+  	<input type="checkbox" id="action">Action
+  	<input type="checkbox" id="drama">Drama
+  	<input type="checkbox" id="sci-fi">Sci-Fi<br>
+  	<input type="checkbox" id="thriller">Thriller
+  	<input type="checkbox" id="commedy">Commedy
+  	<input type="checkbox" id="adventure">Adventure<br>
+  	<input type="button" value="Create Movie" onClick="createMovie();">
+  </form>
+</div>
+<div class="addShow col-sm-12">
+<div>
+	<h2 class="subtitle">Add shows - Remove movies and shows</h2>
+	<div class="col-sm-2" id="theaters">
+		<form>
+			<select class="col-sm-12 theaterList" id="theaterList" onchange="getMovies();"size=4>
+			</select>
+		</form>
+	</div>
+	<div class="col-sm-5" id="movies">
+		<form>
+			<select class="col-sm-12 movieList" id="movieList" size=4 onchange="selectShows();"></select>
+		</form>
+	</div>
+    <div class="col-sm-5">
+     <button id="moviesButton">Add show to selected movie</button>
+     <button id="moviesButton" onclick="removeMovie();">Remove selected movie and its shows</button>
+    </div>
   </div>
-  <div>  
-    <form action="http://localhost:8081/createUser" method="post">
-    Username:<br>
-    <input type="text" id="newUsername"><br>
-    Password:<br>
-    <input type="password" id="newPassword"><br>
-    Admin:<br>
-    <input type="checkbox" id="checkAdmin"><br>
-    <input type="button" value="Create User" onClick="createUser();">
+  
+ <div class="col-sm-12" id="shows">
+  <h2 class="subtitle">Shows of selected movie in selected theater</h2>
+  <button id="showsButton" onclick="removeShow();">Remove selected show</button>
+  <form class=>
+   <select class="col-sm-12 showList" id="showList" size=4>
+    </select>
+  </form>
+ </div>
+</div>
+</div>
+
+<!-- The Modal -->
+<div id="modalShow" class="modal">
+
+  <!-- Modal content -->
+<div class="modal-content">
+  <span class="close">&times;</span>
+  <h3>Show details</h3>
+  <form>
+  	Starting date (yyyy/mm/dd):<br>
+  	<input type='text' id="startDate"><br>
+  	Ending date (yyyy/mm/dd):<br>
+  	<input type='text' id="endDate"><br>
+  	Starting time:<br>
+  	H:<input type='text' id="startTimeHours">M:<input type='text' id="startTimeMinutes"><br>
+  	Ending time:<br>
+  	H:<input type='text' id="endTimeHours">M:<input type='text' id="endTimeMinutes"><br>
+  	Hall number:
+  	<input type='text' id="hallId"><br>
+  	<input type='button' value='createShow' onClick="addShow();">
     </form>
   </div>
+</div>
+  

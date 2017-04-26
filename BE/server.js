@@ -152,6 +152,209 @@ app.post('/createUser',function (req, res){
 
 })
 
+app.post('/createMovie', function (req, res){
+	let title = req.body.title;
+	let year = req.body.year;
+	let genre = JSON.parse(req.body.genre);
+	
+	
+	fs.readFile(__dirname + "/" + "movies.json", "utf8", function (err, data){
+		
+		let movies = JSON.parse(data);
+		let id = movies.length +1; 
+		
+		movies.push({id: id, title: title, releaseYear: year, genre: genre});
+		fs.writeFile(__dirname + "/" + "movies.json", JSON.stringify(movies, null, 4), function (err) {
+			//console.log(movies);
+		});
+		res.end("Movie " + title + " added");
+	});
+});
+
+/**
+ * Deletes a movie and all its' shows
+ */
+app.post ('/deleteMovie', function (req, res){
+	let movieTitle = req.body.movieTitle;
+	let movieId = req.body.movieId;
+	
+	
+	fs.readFile(__dirname + "/" + "movies.json", "utf8", function (err, data){
+		
+		let movies = JSON.parse(data);
+		 
+		for(let movie of movies){
+			if (movieId == movie.id){
+				let index = movies.indexOf(movie);
+				console.log(index);
+				movies.splice(index, 1);
+			}
+		}
+		
+		fs.writeFile(__dirname + "/" + "movies.json", JSON.stringify(movies, null, 4), function (err) {
+			
+		});
+		
+	});
+	
+	deleteShow(movieId);
+	res.end(movieTitle + " and its shows have been removed");
+});
+/**
+ * Deletes all shows according to movieId
+ * @param movieId
+ * 
+ */
+function deleteShow(movieId){
+	
+	fs.readFile( __dirname + "/" + "theaters.json", "utf8", function (err, data){
+		let theaters = JSON.parse(data);
+		
+		for(let theater of theaters){
+			
+			for(let show of theater.shows){
+				if(movieId == show.movieId){
+					let index = theater.shows.indexOf(show);
+					theater.shows.splice(index, 1);
+				}
+			}
+		}
+		fs.writeFile(__dirname + "/" + "theaters.json", JSON.stringify(theaters,null,4), function (err) {
+		});
+	})
+}
+
+/**
+ * Deletes show according to theater, movieId and showId
+ */
+app.post ('/deleteShow', function (req, res){
+	theaterName = req.body.theaterName;
+	movieTitle = req.body.movieTitle;
+	movieId = req.body.movieId;
+	showId = req.body.showId;
+	showInfo = req.body.showInfo;
+	
+	fs.readFile( __dirname + "/" + "theaters.json", "utf8", function (err, data){
+		let theaters = JSON.parse(data);
+		
+		for(let theater of theaters){
+			if(theaterName == theater.name){
+				for(let show of theater.shows){
+					if(showId == show.id){
+						let index = theater.shows.indexOf(show);
+						theater.shows.splice(index, 1);
+					}
+				}
+			}
+
+		}
+		fs.writeFile(__dirname + "/" + "theaters.json", JSON.stringify(theaters,null,4), function (err) {
+		});
+	})
+	res.end("\t\t SHOW REMOVED\n" + theaterName + "\n" +movieTitle + "\n" + showInfo);
+});
+
+
+
+/**
+ * Creates a new show
+ * Checks that there is not another overlapping show
+ */
+app.post ('/createShow', function (req, res){
+	fs.readFile(__dirname + "/" + "movies.json", "utf8", function (err, data){
+		let movies = JSON.parse(data);
+		let theaterName = req.body.theater;
+		let movieId = req.body.movieId;
+		let hallId = parseInt(req.body.hallId);
+		let startDate = new Date(JSON.parse(req.body.startDate));
+		let endDate = new Date(JSON.parse(req.body.endDate));
+		let startTime = new Date(JSON.parse(req.body.startTime));
+		let endTime = new Date(JSON.parse(req.body.endTime));
+		let movieTitle = getMovieTitle(movieId);
+		let showId = 1;
+		
+		function getMovieTitle(movieId){
+			for(let movie of movies){
+				if(movieId == movie.id){
+					return movie.title;
+				}
+			}
+		}
+		
+	 	fs.readFile(__dirname + "/" + "theaters.json", "utf8", function (err, data){
+	
+			let theaters = JSON.parse(data);
+			
+			for(let theater of theaters){
+				for(let show of theater.shows){
+					if(show.id >= showId){
+						showId = show.id +1;
+					}
+				}
+			}
+			
+			
+			for(let theater of theaters){
+				if(theater.name == theaterName){
+					for(let show of theater.shows){
+						let loopStartDate = new Date(show.startDate);
+						let loopEndDate = new Date(show.endDate);
+						let loopStartTime = new Date(show.startTime);
+						let loopEndTime = new Date(show.endTime);
+
+						if(hallId == show.hallId){
+							if((startDate < loopStartDate && endDate < loopStartDate) || (startDate > loopEndDate && endDate > loopEndDate)){
+								continue;
+							}else{
+								if((startTime < loopStartTime && endTime <= loopStartTime) || (startTime >= loopEndTime && endTime > loopEndTime)){
+									continue;
+								}else{
+									loopMovieTitle = getMovieTitle(show.movieId);
+									res.end("\t\tSHOW NOT ADDED!" +
+											"\nThere is already another show in theater " + theater.name +
+											"\nMovie: " + loopMovieTitle +
+											"\nStart date: " + loopStartDate.toDateString() + 
+											"\nEnd date: " + loopEndDate.toDateString() +
+											"\nTime: " + convertTime(loopStartTime.getHours()) + ":" + convertTime(loopStartTime.getMinutes()) +
+											"-" + convertTime(loopEndTime.getHours()) + ":" + convertTime(loopEndTime.getMinutes()));
+									return;
+								}
+							}
+						}
+					}
+					theater.shows.push({id: showId, movieId: parseInt(movieId), startDate: startDate, endDate: endDate,
+						startTime: startTime, endTime: endTime, hallId: parseInt(hallId), reservations: []});
+					}
+				}
+			
+			fs.writeFile(__dirname + "/" + "theaters.json", JSON.stringify(theaters, null, 4), function (err) {
+	// console.log(movies);
+			});
+			res.end("\tSHOW ADDED!" +
+					"\nStart date: " + startDate.toDateString() + 
+					"\nEnd date: " + endDate.toDateString() +
+					"\nTime: " + convertTime(startTime.getHours()) + ":" + convertTime(startTime.getMinutes()) +
+					"-" + convertTime(endTime.getHours()) + ":" + convertTime(endTime.getMinutes()));
+		});
+	});
+});
+
+
+
+
+/*
+ * Used to show hours and minutes in correct format
+ * Adds 0 if value < 10. 
+ */
+function convertTime(value){
+	if(value < 10) {
+        return '0' + value;
+    } else {
+        return value;
+    }	
+}
+
+app.post ('/deleteShow', function (req, res){});
 
 // HANDLE RESERVATION -> add reservation info to user in users.json file
 app.post('/reservation', function(req, res){

@@ -14,24 +14,16 @@
         "reservations": [
             {
                 "theaterId": 2,
-                "showId": 1,
+                "showId": 4,
                 "seats": [
-                    70,
-                    133
+                    78
                 ]
             },
             {
                 "theaterId": 2,
-                "showId": 1,
+                "showId": 4,
                 "seats": [
-                    77
-                ]
-            },
-            {
-                "theaterId": 1,
-                "showId": 1,
-                "seats": [
-                    26
+                    54
                 ]
             }
         ]

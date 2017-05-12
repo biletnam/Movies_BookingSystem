@@ -5,7 +5,7 @@
         "halls": [
             {
                 "id": 0,
-                "name": "sali1",
+                "name": "Hall 1",
                 "rows": [
                     20,
                     20,
@@ -18,7 +18,7 @@
             },
             {
                 "id": 1,
-                "name": "sali2",
+                "name": "Hall 2",
                 "rows": [
                     10,
                     10,
@@ -38,7 +38,7 @@
                 "endDate": "2017-04-30T01:00:00.000Z",
                 "startTime": "2017-01-01T16:00:00.000Z",
                 "endTime": "2017-01-01T19:00:00.000Z",
-                "hallId": 1,
+                "hallId": 0,
                 "reservations": []
             },
             {
@@ -48,7 +48,7 @@
                 "endDate": "2017-03-30T21:00:00.000Z",
                 "startTime": "2017-01-01T16:00:00.000Z",
                 "endTime": "2017-01-01T18:00:00.000Z",
-                "hallId": 2,
+                "hallId": 1,
                 "reservations": []
             }
         ]
@@ -59,7 +59,7 @@
         "halls": [
             {
                 "id": 0,
-                "name": "sali1",
+                "name": "Hall 1",
                 "rows": [
                     20,
                     20,
@@ -72,7 +72,7 @@
             },
             {
                 "id": 1,
-                "name": "sali2",
+                "name": "Hall 2",
                 "rows": [
                     30,
                     30,
@@ -92,7 +92,7 @@
                 "endDate": "2017-05-30T21:00:00.000Z",
                 "startTime": "2017-01-01T14:00:00.000Z",
                 "endTime": "2017-01-01T16:00:00.000Z",
-                "hallId": 1,
+                "hallId": 0,
                 "reservations": []
             },
             {
@@ -102,8 +102,21 @@
                 "endDate": "2017-04-29T21:00:00.000Z",
                 "startTime": "2017-01-01T18:00:00.000Z",
                 "endTime": "2017-01-01T20:00:00.000Z",
-                "hallId": 2,
-                "reservations": []
+                "hallId": 1,
+                "reservations": [
+                    {
+                        "userId": "2",
+                        "seats": [
+                            78
+                        ]
+                    },
+                    {
+                        "userId": "2",
+                        "seats": [
+                            54
+                        ]
+                    }
+                ]
             }
         ]
     }

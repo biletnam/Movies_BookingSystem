@@ -14,13 +14,6 @@
         "reservations": [
             {
                 "theaterId": 2,
-                "showId": 4,
-                "seats": [
-                    54
-                ]
-            },
-            {
-                "theaterId": 2,
                 "showId": 3,
                 "seats": [
                     1
@@ -31,6 +24,14 @@
                 "showId": 1,
                 "seats": [
                     1
+                ]
+            },
+            {
+                "theaterId": 1,
+                "showId": 1,
+                "seats": [
+                    12,
+                    13
                 ]
             }
         ]
@@ -69,7 +70,22 @@
                 "seats": [
                     73
                 ]
+            },
+            {
+                "theaterId": 2,
+                "showId": 4,
+                "seats": [
+                    18,
+                    17
+                ]
             }
         ]
+    },
+    {
+        "username": "tero",
+        "password": "tero",
+        "admin": false,
+        "id": 6,
+        "reservations": []
     }
 ]

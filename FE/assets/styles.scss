@@ -2,15 +2,19 @@
 COLORS
 *************************/
 
-$bg: #E1E1E1;
+$bg: #F7F7F7;
 $altBg: #EEEEEE;
 $navBg: #EEEEEE;
 $navItemHover: #D6D6D6;
 $border: #000000;
+$dark: #1E2A2D;
 
+$text: #3B3B3B;
+$headerColor: #323232;
 
-$text: #171717;
-
+h1,h2,h3{
+  color: $headerColor;
+}
 
 * { box-sizing: border-box;}
 body {
@@ -60,6 +64,7 @@ body {
     -webkit-box-shadow: 4px 4px 19px 0px rgba(47, 50, 50, 0.67);
     -moz-box-shadow:    4px 4px 19px 0px rgba(47, 50, 50, 0.67);
     box-shadow:         4px 4px 19px 0px rgba(47, 50, 50, 0.67);
+    border-radius: 5px;
 
     .section{
 
@@ -121,7 +126,7 @@ body {
    height: 100%;
    width: 100%;
    text-align: center;
-   font-family: "Times New Roman", Times, serif;
+   font-family: Verdana, Geneva, sans-serif;
    .title{
    	border-bottom: 2px solid black;
    	}
@@ -138,17 +143,21 @@ body {
  }
 }
   .customerView{
-    height: 70%;
-    overflow: hidden;
+        overflow: hidden;
     width: 100%;
     margin: 10px;
+    margin-left: 0;
     padding: 20px;
     background-color: $altBg;
+    -webkit-box-shadow: 4px 4px 19px 0px rgba(47, 50, 50, 0.67);
+    -moz-box-shadow:    4px 4px 19px 0px rgba(47, 50, 50, 0.67);
+    box-shadow:         4px 4px 19px 0px rgba(47, 50, 50, 0.67);
+    border-radius: 5px;
     .reservations{
       max-height: 80%;
       overflow: hidden;
       overflow-y: scroll;
-      //padding-bottom: 50px;
+
       .reservation{
         padding: 10px;
         margin: 5px;

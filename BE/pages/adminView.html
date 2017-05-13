@@ -1,7 +1,7 @@
 <div class="adminView">
 	<h3 class="title">Admin</h3>
-	<div class="addUser col-sm-12"> 
-  		<h2 class="subtitle">Create new user</h2> 
+	<div class="addUser col-sm-12">
+  		<h2 class="subtitle">Create new user</h2>
     	<form>
     		Username:<br>
     		<input type="text" id="newUsername"><br>
@@ -9,7 +9,7 @@
    	 		<input type="password" id="newPassword"><br>
     		Admin:
     		<input type="checkbox" id="checkAdmin"><br>
-    		<input type="button" value="Create User" onClick="createUser();">
+    		<input class="btn btn-success" type="button" value="Create User" onClick="createUser();">
   	</form>
 	</div>
 <div class="addMovie col-sm-12">
@@ -26,7 +26,7 @@
   	<input type="checkbox" id="thriller">Thriller
   	<input type="checkbox" id="commedy">Commedy
   	<input type="checkbox" id="adventure">Adventure<br>
-  	<input type="button" value="Create Movie" onClick="createMovie();">
+  	<input class="btn btn-success" type="button" value="Create Movie" onClick="createMovie();">
   </form>
 </div>
 <div class="addShow col-sm-12">
@@ -44,14 +44,14 @@
 		</form>
 	</div>
     <div class="col-sm-5">
-     <button id="moviesButton">Add show to selected movie</button>
-     <button id="moviesButton" onclick="removeMovie();">Remove selected movie and its shows</button>
+     <button class="btn btn-success" id="moviesButton">Add show to selected movie</button>
+     <button  class="btn btn-danger" id="moviesButton" onclick="removeMovie();">Remove selected movie and its shows</button>
     </div>
   </div>
-  
+
  <div class="col-sm-12" id="shows">
   <h2 class="subtitle">Shows of selected movie in selected theater</h2>
-  <button id="showsButton" onclick="removeShow();">Remove selected show</button>
+  <button class="btn btn-danger" id="showsButton" onclick="removeShow();">Remove selected show</button>
   <form class=>
    <select class="col-sm-12 showList" id="showList" size=4>
     </select>
@@ -78,8 +78,7 @@
   	H:<input type='text' id="endTimeHours">M:<input type='text' id="endTimeMinutes"><br>
   	Hall number:
   	<input type='text' id="hallId"><br>
-  	<input type='button' value='createShow' onClick="addShow();">
+  	<input class="btn btn-success" type='button' value='createShow' onClick="addShow();">
     </form>
   </div>
 </div>
-  

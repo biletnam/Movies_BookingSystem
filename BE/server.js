@@ -154,15 +154,23 @@ app.post('/createUser',function (req, res){
 	};
 
 	fs.readFile( __dirname + "/" + "users.json", "utf8", function (err, data){
-
+	let uniqueUsername = true;
 		let users = JSON.parse(data);
+		for(let user of users){
+			if(user.username == username){
+				uniqueUsername = false;
+			}
+		}
+		if(uniqueUsername){
 		let id = users.length +1;
 		users.push({username: username, password: password, admin: admin, id: id, reservations: []});
 
 		fs.writeFile(__dirname + "/" + "users.json", JSON.stringify(users, null, 4), function (err) {
 		});
 		res.end("success");
-
+}else{
+	res.end("failure")
+}
 	});
 
 })

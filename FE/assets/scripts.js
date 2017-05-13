@@ -161,7 +161,7 @@ if(username != "" && username != undefined && password != "" && password != unde
 		if(data == "success"){
 			alert("User " + username + " created");
 		}else{
-			alert("Sorry, something went wrong...");
+			alert("Username already taken");
 		}
 	})
 }else{
@@ -663,7 +663,7 @@ function addShow(){
 					let showStartTime = new Date(show.startTime);
 					$(".reservations").append($("<div class='reservation'><h4 class='title'>"+res.movieName+"</h4><span class='date'>"
 					+showDate.getDate()+"/"+showDate.getMonth()+"/"+showDate.getFullYear()+" " + showStartTime.getHours() +":" + showStartTime.getMinutes()+"</span><span class='theater-name'>"+res.theaterName+"</span>"+
-					"<span class='hall-name'>"+ res.hallName+"</span><span class='reservation-seats'>"+res.seats.length+"</span><button data-theaterid="+res.theaterId+" data-showid="+res.showId+" data-seats="+res.seats+" onClick='removeReservation(this);'>Remove reservation</button></div>"));
+					"<span class='hall-name'>"+ res.hallName+"</span><span class='reservation-seats'>Number of seats: "+res.seats.length+"</span><button class='btn btn-danger' data-theaterid="+res.theaterId+" data-showid="+res.showId+" data-seats="+res.seats+" onClick='removeReservation(this);'>Remove reservation</button></div>"));
 
 				}
 			});

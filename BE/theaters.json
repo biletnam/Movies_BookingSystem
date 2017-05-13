@@ -45,6 +45,13 @@
                         "seats": [
                             1
                         ]
+                    },
+                    {
+                        "userId": "2",
+                        "seats": [
+                            12,
+                            13
+                        ]
                     }
                 ]
             },
@@ -125,9 +132,10 @@
                 "hallId": 1,
                 "reservations": [
                     {
-                        "userId": "2",
+                        "userId": "5",
                         "seats": [
-                            54
+                            18,
+                            17
                         ]
                     }
                 ]

@@ -39,7 +39,14 @@
                 "startTime": "2017-01-01T16:00:00.000Z",
                 "endTime": "2017-01-01T19:00:00.000Z",
                 "hallId": 0,
-                "reservations": []
+                "reservations": [
+                    {
+                        "userId": "2",
+                        "seats": [
+                            1
+                        ]
+                    }
+                ]
             },
             {
                 "id": 2,
@@ -93,7 +100,20 @@
                 "startTime": "2017-01-01T14:00:00.000Z",
                 "endTime": "2017-01-01T16:00:00.000Z",
                 "hallId": 0,
-                "reservations": []
+                "reservations": [
+                    {
+                        "userId": "2",
+                        "seats": [
+                            1
+                        ]
+                    },
+                    {
+                        "userId": "5",
+                        "seats": [
+                            73
+                        ]
+                    }
+                ]
             },
             {
                 "id": 4,
@@ -104,12 +124,6 @@
                 "endTime": "2017-01-01T20:00:00.000Z",
                 "hallId": 1,
                 "reservations": [
-                    {
-                        "userId": "2",
-                        "seats": [
-                            78
-                        ]
-                    },
                     {
                         "userId": "2",
                         "seats": [

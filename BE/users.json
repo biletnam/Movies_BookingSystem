@@ -16,14 +16,21 @@
                 "theaterId": 2,
                 "showId": 4,
                 "seats": [
-                    78
+                    54
                 ]
             },
             {
                 "theaterId": 2,
-                "showId": 4,
+                "showId": 3,
                 "seats": [
-                    54
+                    1
+                ]
+            },
+            {
+                "theaterId": 1,
+                "showId": 1,
+                "seats": [
+                    1
                 ]
             }
         ]
@@ -46,6 +53,21 @@
                 "showId": 1,
                 "seats": [
                     1
+                ]
+            }
+        ]
+    },
+    {
+        "username": "janne",
+        "password": "janne",
+        "admin": false,
+        "id": 5,
+        "reservations": [
+            {
+                "theaterId": 2,
+                "showId": 3,
+                "seats": [
+                    73
                 ]
             }
         ]

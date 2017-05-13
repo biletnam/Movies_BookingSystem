@@ -17,7 +17,7 @@ $(document).ready(function(){
 
 		let username = $("#username").val();
 		let password = $("#password").val();
-
+if(username != "" && username != undefined && password != "" && password != undefined){
 		$.post(url + "/login", { username: username, password: password}, function(data){
 
 			//Update the view
@@ -29,7 +29,7 @@ $(document).ready(function(){
 				if(userId != null && userId != undefined){
 					$.post(url + "/isAdmin",{userid: userId}, function(res, stat){
 						let isAdmin = res;
-		console.log(isAdmin);
+
 						if(isAdmin){
 							getTheaters() //Get theaters for the admin view
 							modalShow()
@@ -48,6 +48,9 @@ $(document).ready(function(){
 			//Get the theaters and shows (Used in customer view)
 
 		});
+	}else{
+		alert("Error on login");
+	}
 	});
 
 });
@@ -143,6 +146,30 @@ function createUser(){
 		}
 	})
 }
+/**
+* Create new users from frontpage
+*/
+function createNewUser(){
+
+
+
+	let username = $("#username").val();
+	let password = $("#password").val();
+if(username != "" && username != undefined && password != "" && password != undefined){
+	$.post(url + "/createUser", { username: username, password: password, admin: false}, function(data){
+
+		if(data == "success"){
+			alert("User " + username + " created");
+		}else{
+			alert("Sorry, something went wrong...");
+		}
+	})
+}else{
+	alert("Please fill in your username and password");
+}
+}
+
+
 
 function printTheaterSelection(data){
 	$.get(url + "/getTheaters", function(response, status){
@@ -150,7 +177,7 @@ function printTheaterSelection(data){
 		let data = JSON.parse(response);
 
 		let list = $("<select  onchange=showTheater(this);></select>");
-		list.append($("<option selected disabled></option").text("Valitse teatteri"));
+		list.append($("<option selected disabled></option").text("Select Theater"));
 		for(let theater of data){
 			let singleTheater = $("<option value="+theater.id+"></option>").text(theater.name);
 			list.append(singleTheater);

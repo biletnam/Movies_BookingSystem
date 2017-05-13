@@ -127,7 +127,10 @@ body {
    	}
 
    .showMovies{
-     max-height: 50%;
+     display: block;
+     overflow:auto;
+     background-color: $altBg;
+     
      padding: 20px;
    	#theaterList{
    		text-align: center;
@@ -167,7 +170,7 @@ body {
   	font-size: 35px;
   }
   	.addUser{
-  		
+
   		border:1px solid black;
   		border-radius: 30px;
   		padding: 5px;
@@ -255,6 +258,9 @@ select{
   }
 }
 .movieImages{
+  opacity: 0.8;
+  z-index: -10;
+float: left;
   img{
     border-radius: 30px;
     margin: 15px;
